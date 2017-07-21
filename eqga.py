@@ -67,10 +67,10 @@ P = [ [0,0.8,0.71,0.83,0.68,0,0.89,0.78,0.56,1,0.62,0.57,1,0.88,1],
 
 dim = 15    # 点的维数
 n = 55      # 点的数量
-pm = 0.1    # 变异概率
-popu = 2000 # 种群数量
+pm = 0.3    # 变异概率
+popu = 3000 # 种群数量
 r = 0.2     # 交叉参数
-gene = 500  # 迭代代数
+gene = 200  # 迭代代数
 
 class Chrom(object):
     def __init__(self):
@@ -118,7 +118,15 @@ class Chrom(object):
             suma += self.a[i] * self.a[i]
             
         return f/suma
-    
+
+def select(plist:list) -> int:
+    r = random.uniform(0,1)
+    sum = 0.0
+    for i in range(len(plist)):
+        sum += plist[i]
+        if r <= sum:
+            return i
+
 def main():
     # 初始化种群
     data = []
@@ -127,11 +135,22 @@ def main():
         
     # 迭代
     for g in range(gene):
+        # 计算每个个体的评价函数
+        f = []
+        fsum = 0.0
+        for i in range(popu):
+            f.append(data[i].eval())
+            fsum += f[i]
+        # 计算每个个体被选中的概率
+        fp = []
+        for i in range(popu):
+            fp.append(f[i]/fsum)
+        
         # 交叉产生新个体
         data_tmp = []
-        for i in range(int(popu/2)):
-            index1 = random.randint(0, popu-1)
-            index2 = random.randint(0, popu-1)
+        for i in range(popu):
+            index1 = select(fp)
+            index2 = select(fp)
             new_chroms = Chrom.cross(data[index1], data[index2])
             data_tmp.extend(new_chroms)
             
