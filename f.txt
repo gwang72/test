@@ -1,0 +1,42 @@
+digraph G {
+	node[fontname="Microsoft YaHei",shape=box]
+	a [label="静力学"];
+	b [label="力的概念"];
+	c [label="力的合成与分解"];
+	d [label="力的分类"];
+	e [label="物理受力分析"];
+	f [label="共点力作用下物体的平衡"];
+	g [label="力的初步概念"];
+	h [label="力的表示方法"];
+	i [label="力的作用效果"];
+	j [label="平行四边形法则"];
+	k [label="重力"];
+	l [label="弹力"];
+	m [label="摩擦力"];
+	n [label="共点力的平衡条件"];
+	//o [label="力的三要素"];
+	p [label="力的图示法"];
+	q [label="力的示意图"];
+	r [label="静摩擦力"];
+	s [label="滑动摩擦力"];
+
+	a -> { b, c, d, e, f };
+	b -> { g, h, i };
+	h -> { p, q };
+	c -> j;
+	d -> { k, l, m };
+	m -> { r, s };
+	f -> n;
+	h -> d [color=red];
+	i -> c [color=red];
+	{ c, e } -> n [color=red];
+
+	{ rank = same; b;c;d;e;f; }
+	{ rank = same; g;h;i;j;k;l;m;n; }
+	{ rank = same; p;q;r;s; }
+
+	b -> c -> d -> e -> f [style=invis];
+	g -> h -> i -> j -> k [style=invis];
+	l -> m -> n [style=invis];
+	p -> q -> r -> s [style=invis];
+}
