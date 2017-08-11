@@ -8,24 +8,9 @@ Created on Wed Aug  9 11:24:15 2017
 import math
 from scipy.sparse import dok_matrix
 
-#count = 5
-#treedata = ( (0,1), (0,2), (1,3), (2,3), (2,4) )
-#
-#dm = dok_matrix( (count, count), dtype = bool )
-#for e in treedata:
-#    dm[e[0], e[1]] = True
-
-def GetMax(data:tuple) -> int:
-    maxium = 0
-    for e in data:
-        maxium = max(e[0], e[1], maxium)
-            
-    return maxium
-
 class Kdata(object):
-    def __init__(self, treedata:tuple, max:int):
-        #self.count = GetMax(treedata)
-        self.count = max
+    def __init__(self, treedata:tuple):
+        self.count = GetMax(treedata)
         self.dm = dok_matrix( (self.count, self.count), dtype = bool )
         for e in treedata:
             self.dm[e[0], e[1]] = True
@@ -45,6 +30,13 @@ class Kdata(object):
                 l.append(i)
                 
         return l
+
+def GetMax(data:tuple) -> int:
+    maxium = 0
+    for e in data:
+        maxium = max(e[0], e[1], maxium)
+            
+    return maxium+1
 
 def CompCheck(k:Kdata, data:list) -> bool:
     for index in data:
@@ -91,11 +83,50 @@ def BasicComponent(k:Kdata) -> list:
             
     return l
 
+def ListToDict(l:list) -> dict:
+    d = {}
+    for i in range(len(l)):
+        d[i] = l[i]
+        
+    return d
+
+def MaxLen(d:dict) -> int:
+    max = 1
+    for e in d.values():
+        if len(e) > max:
+            max = len(e)
+            
+    return max
+
+def MinLen(d:dict) -> int:
+    min = 999
+    for e in d.values():
+        if len(e) < min:
+            min = len(e)
+            
+    return min
+
+def Sort(d:dict) -> list:
+    l = []
+    tmp = {}
+    min = MinLen(d)
+    max = MaxLen(d)
+    for i in range(min, max+1):
+        for k,v in d.items():
+            if len(v) == i:
+                tmp[k] = v
+        l.append(tmp.copy())
+        tmp.clear()
+        
+    return l
+
 def main():
     tree = ( (0,1), (0,2), (1,3), (2,4), (2,3) )
-    k = Kdata(tree, 5)
-    bc = BasicComponent(k)
-    print(bc)
+    k = Kdata(tree)
+    c = Component(k)
+    print(c)
+    s = Sort(ListToDict(c))
+    print(s)
     
 if __name__ == '__main__':
     main()
