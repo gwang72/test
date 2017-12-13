@@ -10,12 +10,17 @@ import math
 import numpy as np
 np.set_printoptions(threshold=np.inf)
 
-def lsm(plist:list) -> np.matrix:
+def lsm(plist: list) -> np.matrix: 
+    """
+    Use Least Square Method to get b for min||Ab - Y||,
+    where the first column of plist is Y and the remains is A.
+    min b = A^(-1) * Y
+    """
     n = len(plist)
 #    dim = len(plist[0])
     ly = []
     p = copy.deepcopy(plist)
-    
+
     for i in range(n):
         ly.append(plist[i][0])
     y = np.matrix(ly)
@@ -26,15 +31,18 @@ def lsm(plist:list) -> np.matrix:
     
     return np.linalg.pinv(a) * y.T
 
-def coe_p(p:list) -> list:
+def coe_p(p: list) -> list: 
+    """
+    Get coeffients of the hyperplane : a1*x1 + ... + an*xn + b = 0
+    """
     result = lsm(p).T.tolist()[0]
     return coe_calc(result)
 
-def coe_m(m:np.matrix) -> list:
+def coe_m(m: np.matrix) -> list: 
     result = m.T.tolist()[0]
     return coe_calc(result)
 
-def coe_calc(result:list) -> list:
+def coe_calc(result: list) -> list: 
     b = result[0]
     a = [-1,]
     for i in range(1, len(result)):
@@ -45,7 +53,11 @@ def coe_calc(result:list) -> list:
     l.append(b)
     return l
 
-def d(p:list) -> list:
+def distance(p: list) -> list: 
+    """
+    Get distance of each point in p to the hyperplane,
+    and the sum of them.
+    """
     f = 0.0
     n = len(p)
     dim = len(p[0])
