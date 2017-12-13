@@ -1,13 +1,14 @@
 import irt
 import read
 import random
+import profile
 
 
 PM = 0.1  # 变异概率
 PC = 0.9  # 交叉概率
-POPU = 100  # 种族数量
+POPU = 50  # 种族数量
 r = 0.2  # 交叉参数
-GENE = 50  # 迭代次数
+GENE = 1  # 迭代次数
 tour = 2  # 锦标赛选择方法中一次选取的个体数量
 
 max_theta = 4.0  # 能力值上下限
@@ -144,7 +145,7 @@ def main():
         population = new_population[:]
 
         # 根据评价函数排序
-        new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
+        #new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
         print("Gene", g)
         print("fitness", new_population[0].fitness(X_ij))
         print("thetas", new_population[0].thetas)
@@ -152,4 +153,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    profile.run("main()")
