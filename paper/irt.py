@@ -73,6 +73,7 @@ class Item(object):
 
     def P_ijk(self, k: int, theta: float) -> float:
         numer = self.numerator(k, theta)
+        # TODO 此处应该是sum_denominator
         denom = self.denominator(self.Kj, theta)
 
         return numer / denom
