@@ -73,8 +73,7 @@ class Item(object):
 
     def P_ijk(self, k: int, theta: float) -> float:
         numer = self.numerator(k, theta)
-        # TODO 此处应该是sum_denominator
-        denom = self.denominator(self.Kj, theta)
+        denom = self.sum_denominator(self.Kj, theta)
 
         return numer / denom
 
@@ -90,13 +89,14 @@ def logP(N: int, J: int, KJ: dict, X_ij: dict, thetas: dict, params: dict, item:
     sum = 0.0
     for i in range(1, N + 1):
         for j in range(1, J + 1):
-            for k in range(1, KJ[j] + 1):
-                allbeta_j = item.getAllBeta()[j]
-                data = []
-                data.append(KJ[j])
-                data.append(allbeta_j[1])
-                data.extend(list(allbeta_j.values()))
-                tmp_item = Item(j, data)
-                sum += tmp_item.P_ijk(k, thetas[i]) if delta(X_ij[i][j], k - 1) is True else 0
+            #for k in range(1, KJ[j] + 1):
+            allbeta_j = item.getAllBeta()[j]
+            data = []
+            data.append(KJ[j])
+            data.append(allbeta_j[1])
+            data.extend(list(allbeta_j.values()))
+            tmp_item = Item(j, data)
+            #sum += tmp_item.P_ijk(k, thetas[i]) if delta(X_ij[i][j], k - 1) is True else 0
+            sum += tmp_item.P_ijk(X_ij[i][j] + 1, thetas[i])
 
     return sum
