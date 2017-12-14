@@ -90,7 +90,7 @@ public class Chrom : IComparable<Chrom>
 		return Thetas[index - 1];
 	}
 	
-	public double SetTheta( int index, double theta )
+	public void SetTheta( int index, double theta )
 	{
 		Thetas[index - 1] = theta;
 	}

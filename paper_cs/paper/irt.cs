@@ -112,11 +112,11 @@ public struct Item
 		Index = index;
 		Kj = kj;
 		Betas = new betaParam(beta_data);
-		SumBeta = new double[Betas.beta_delta_j().Length];
+		SumBeta = new double[Betas.beta_data().Length + 1];
 		
-		for ( int i = 1; i < Betas.beta_delta_j().Length + 1; i++ )
+		for ( int i = 1; i < Betas.beta_data().Length + 1; i++ )
 		{
-			SumBeta[i] = sum_beta_delta(i);
+			SumBeta[i] = sum_beta_delta(i - 1);
 		}
 	}
 	
@@ -125,11 +125,11 @@ public struct Item
 		Index = index;
 		Kj = kj;
 		Betas = beta_data;
-		SumBeta = new double[Betas.beta_delta_j().Length];
+		SumBeta = new double[Betas.beta_data().Length + 1];
 		
-		for ( int i = 1; i < Betas.beta_delta_j().Length + 1; i++ )
+		for ( int i = 1; i < Betas.beta_data().Length + 1; i++ )
 		{
-			SumBeta[i] = sum_beta_delta(i);
+			SumBeta[i] = sum_beta_delta(i - 1);
 		}
 	}
 	
@@ -224,12 +224,14 @@ public static class irt
 				Item tmp = new Item(j, KJ[j], betas[j]);
 				for ( int k = 0; k < KJ[j]; k++ )
 				{
-					if ( sig_delta(X_ij[i][j], k) )
+					if ( sig_delta(X_ij[i,j], k) )
 					{
 						sum += tmp.P_ijk(k + 1, thetas[i]);
 					}
 				}
 			}
 		}
+		
+		return sum;
 	}
 }

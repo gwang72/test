@@ -1,0 +1,6 @@
+G:\src\git\test\paper_cs\paper\obj\Debug\paper.csprojResolveAssemblyReference.cache
+G:\src\git\test\paper_cs\paper\bin\Debug\paper.exe.config
+G:\src\git\test\paper_cs\paper\bin\Debug\paper.exe
+G:\src\git\test\paper_cs\paper\bin\Debug\paper.pdb
+G:\src\git\test\paper_cs\paper\obj\Debug\paper.exe
+G:\src\git\test\paper_cs\paper\obj\Debug\paper.pdb

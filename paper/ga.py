@@ -8,7 +8,7 @@ PM = 0.1  # 变异概率
 PC = 0.9  # 交叉概率
 POPU = 50  # 种族数量
 r = 0.2  # 交叉参数
-GENE = 1  # 迭代次数
+GENE = 10  # 迭代次数
 tour = 2  # 锦标赛选择方法中一次选取的个体数量
 
 max_theta = 4.0  # 能力值上下限
@@ -116,40 +116,49 @@ def main():
 
         X_ij[i] = tmp
 
-    # 产生初始种群
-    population = []
-    for i in range(POPU):
-        population.append(Chrom(paper_N, paper_KJ))
+    # # 产生初始种群
+    # population = []
+    # for i in range(POPU):
+    #     population.append(Chrom(paper_N, paper_KJ))
+    #
+    # # 迭代
+    # for g in range(GENE):
+    #     new_population = []
+    #     for i in range(int(POPU/2)):
+    #         # 选择
+    #         print("select", i)
+    #         a, b = select(population, X_ij)
+    #         if random.random() <= PC:
+    #             # 交叉
+    #             new_a, new_b = cross(a, b)
+    #             # 将新个体存入新种群
+    #             new_population.extend([new_a, new_b])
+    #         else:
+    #             new_population.extend([a, b])
+    #
+    #     # 变异
+    #     # for i in range(POPU):
+    #     #     if random.random() <= PM:
+    #     #         new_population[i].mutation()
+    #
+    #     # 将原来的种群替代
+    #     population = new_population[:]
+    #
+    #     # 根据评价函数列出最小者
+    #     # new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
+    #     min_chrom = min(new_population, key=lambda chrom:chrom.fitness(X_ij))
+    #     print("Gene", g)
+    #     print("fitness", min_chrom.fitness(X_ij))
+    #     print("thetas", min_chrom.thetas)
+    #     print("betas", min_chrom.betas)
 
-    # 迭代
-    for g in range(GENE):
-        new_population = []
-        for i in range(int(POPU/2)):
-            # 选择
-            print("select", i)
-            a, b = select(population, X_ij)
-            if random.random() <= PC:
-                # 交叉
-                new_a, new_b = cross(a, b)
-                # 将新个体存入新种群
-                new_population.extend([new_a, new_b])
-            else:
-                new_population.extend([a, b])
+    chroms = []
+    for i in range(10):
+        chroms.append(Chrom(paper_N, paper_KJ))
 
-        # 变异
-        # for i in range(POPU):
-        #     if random.random() <= PM:
-        #         new_population[i].mutation()
-
-        # 将原来的种群替代
-        population = new_population[:]
-
-        # 根据评价函数排序
-        #new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
-        print("Gene", g)
-        print("fitness", new_population[0].fitness(X_ij))
-        print("thetas", new_population[0].thetas)
-        print("betas", new_population[0].betas)
+    for i in range(50):
+        for c in chroms:
+            print(c.fitness(X_ij))
 
 
 if __name__ == '__main__':

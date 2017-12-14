@@ -97,6 +97,6 @@ def logP(N: int, J: int, KJ: dict, X_ij: dict, thetas: dict, params: dict, item:
             data.extend(list(allbeta_j.values()))
             tmp_item = Item(j, data)
             #sum += tmp_item.P_ijk(k, thetas[i]) if delta(X_ij[i][j], k - 1) is True else 0
-            sum += tmp_item.P_ijk(X_ij[i][j] + 1, thetas[i])
+            sum += tmp_item.P_ijk(X_ij[i][j], thetas[i]) if X_ij[i][j] != 0 else 0
 
     return sum
