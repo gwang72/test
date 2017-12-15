@@ -4,3 +4,9 @@ G:\src\git\test\paper_cs\paper\bin\Debug\paper.exe
 G:\src\git\test\paper_cs\paper\bin\Debug\paper.pdb
 G:\src\git\test\paper_cs\paper\obj\Debug\paper.exe
 G:\src\git\test\paper_cs\paper\obj\Debug\paper.pdb
+D:\src\git\test\paper_cs\paper\obj\Debug\paper.csprojResolveAssemblyReference.cache
+D:\src\git\test\paper_cs\paper\obj\Debug\paper.exe
+D:\src\git\test\paper_cs\paper\bin\Debug\paper.exe.config
+D:\src\git\test\paper_cs\paper\bin\Debug\paper.exe
+D:\src\git\test\paper_cs\paper\bin\Debug\paper.pdb
+D:\src\git\test\paper_cs\paper\obj\Debug\paper.pdb

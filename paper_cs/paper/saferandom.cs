@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Security.Cryptography;
 
@@ -53,5 +54,32 @@ public class ThreadSafeRandom : Random
 	public override void NextBytes(byte[] buffer)
 	{
 		_local.Value.NextBytes(buffer);
+	}
+}
+
+public static class RandomSample
+{
+	public static int[] Sample( int count, int min, int max )
+	{
+		List<int> container = new List<int>(max - min);
+		List<int> result = new List<int>(count);
+		ThreadSafeRandom random = new ThreadSafeRandom();
+		
+		for ( int i = min; i < max; i++ )
+		{
+			container.Add(i);
+		}
+		
+		int index = 0;
+		int value = 0;
+		for ( int i = 1; i <= count; i++ )
+		{
+			index = random.Next(0, container.Count);
+			value = container[index];
+			result.Add(value);
+			container.RemoveAt(index);
+		}
+		
+		return result.ToArray();
 	}
 }

@@ -76,8 +76,8 @@ def select(population: list, X_ij: dict) -> tuple:
     competitors_1 = random.sample(range(count), tour)
     competitors_2 = random.sample(range(count), tour)
 
-    father = min([val for idx, val in enumerate(population) if idx in competitors_1], key=lambda chrom: chrom.fitness(X_ij))
-    mother = min([val for idx, val in enumerate(population) if idx in competitors_2], key=lambda chrom: chrom.fitness(X_ij))
+    father = max([val for idx, val in enumerate(population) if idx in competitors_1], key=lambda chrom: chrom.fitness(X_ij))
+    mother = max([val for idx, val in enumerate(population) if idx in competitors_2], key=lambda chrom: chrom.fitness(X_ij))
 
     return (father, mother)
 
@@ -116,49 +116,41 @@ def main():
 
         X_ij[i] = tmp
 
-    # # 产生初始种群
-    # population = []
-    # for i in range(POPU):
-    #     population.append(Chrom(paper_N, paper_KJ))
-    #
-    # # 迭代
-    # for g in range(GENE):
-    #     new_population = []
-    #     for i in range(int(POPU/2)):
-    #         # 选择
-    #         print("select", i)
-    #         a, b = select(population, X_ij)
-    #         if random.random() <= PC:
-    #             # 交叉
-    #             new_a, new_b = cross(a, b)
-    #             # 将新个体存入新种群
-    #             new_population.extend([new_a, new_b])
-    #         else:
-    #             new_population.extend([a, b])
-    #
-    #     # 变异
-    #     # for i in range(POPU):
-    #     #     if random.random() <= PM:
-    #     #         new_population[i].mutation()
-    #
-    #     # 将原来的种群替代
-    #     population = new_population[:]
-    #
-    #     # 根据评价函数列出最小者
-    #     # new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
-    #     min_chrom = min(new_population, key=lambda chrom:chrom.fitness(X_ij))
-    #     print("Gene", g)
-    #     print("fitness", min_chrom.fitness(X_ij))
-    #     print("thetas", min_chrom.thetas)
-    #     print("betas", min_chrom.betas)
+    # 产生初始种群
+    population = []
+    for i in range(POPU):
+        population.append(Chrom(paper_N, paper_KJ))
 
-    chroms = []
-    for i in range(10):
-        chroms.append(Chrom(paper_N, paper_KJ))
+    # 迭代
+    for g in range(GENE):
+        new_population = []
+        for i in range(int(POPU/2)):
+            # 选择
+            print("select", i)
+            a, b = select(population, X_ij)
+            if random.random() <= PC:
+                # 交叉
+                new_a, new_b = cross(a, b)
+                # 将新个体存入新种群
+                new_population.extend([new_a, new_b])
+            else:
+                new_population.extend([a, b])
 
-    for i in range(50):
-        for c in chroms:
-            print(c.fitness(X_ij))
+        # 变异
+        # for i in range(POPU):
+        #     if random.random() <= PM:
+        #         new_population[i].mutation()
+
+        # 将原来的种群替代
+        population = new_population[:]
+
+        # 根据评价函数列出最小者
+        # new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
+        max_chrom = max(new_population, key=lambda chrom:chrom.fitness(X_ij))
+        print("Gene", g)
+        print("fitness", max_chrom.fitness(X_ij))
+        print("thetas", max_chrom.thetas)
+        print("betas", max_chrom.betas)
 
 
 if __name__ == '__main__':

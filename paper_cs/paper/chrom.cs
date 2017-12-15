@@ -9,11 +9,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class Var
 {
-	public static double PM = 0.1;
-	public static double PC = 0.9;
+	public static double PM = 0.05;
+	public static double PC = 0.8;
 	public static int POPU = 100;
 	public static double r = 0.2;
 	public static int GENE = 50;
@@ -125,6 +126,32 @@ public class Chrom : IComparable<Chrom>
 		return new Tuple<Chrom, Chrom>( new_g1, new_g2 );
 	}
 	
+	public static Tuple<Chrom, Chrom> Select( Chrom[] population )
+	{
+		int count = population.Length;
+		int[] competitors_1 = RandomSample.Sample(Var.tour, 0, count);
+		int[] competitors_2 = RandomSample.Sample(Var.tour, 0, count);
+		
+		Chrom father = Max(competitors_1, population);
+		Chrom mother = Max(competitors_2, population);
+		
+		return new Tuple<Chrom, Chrom>(father, mother);
+	}
+	
+	public void Mutation( )
+	{
+		if ( Signal() == 1 )
+		{
+			int len = Thetas.Length;
+			int index = safeRandom.Next(0, len);
+			Thetas[index] = Signal() * Var.max_theta * safeRandom.NextDouble();
+		}
+		else
+		{
+			;
+		}
+	}
+	
 	public double fitness( )
 	{
 		return irt.logP( N, KJ.Length, KJ, X_ij, Thetas, BetaParams );
@@ -133,5 +160,29 @@ public class Chrom : IComparable<Chrom>
 	public int CompareTo( Chrom other )
 	{
 		return this.fitness().CompareTo(other.fitness());
+	}
+	
+	private static Chrom Max( int[] indices, Chrom[] chroms )
+	{
+		Dictionary<int, double> data = new Dictionary<int, double>();
+		for ( int i = 0; i < indices.Length; i++ )
+		{
+			data[indices[i]] = chroms[i].fitness();
+		}
+		
+		int maxkey = data.Keys.Select(x => new { x, y = data[x] }).OrderBy(x => x.y).Last().x;
+		return chroms[maxkey];
+	}
+	
+	public static Chrom Max( Chrom[] chroms )
+	{
+		Dictionary<int, double> data = new Dictionary<int, double>();
+		for ( int i = 0; i < chroms.Length; i++ )
+		{
+			data[i] = chroms[i].fitness();
+		}
+		
+		int maxkey = data.Keys.Select(x => new { x, y = data[x] }).OrderBy(x => x.y).Last().x;
+		return chroms[maxkey];
 	}
 }

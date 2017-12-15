@@ -1,4 +1,5 @@
 from numpy import exp
+from numpy import log
 from ga import Chrom
 
 
@@ -71,11 +72,20 @@ class Item(object):
     def numerator(self, k: int, theta: float) -> float:
         return exp((k - 1) * self.beta_2j * theta - self.sum_beta[k])
 
+    def numerator_exp(self, k: int, theta: float) -> float:
+        return (k - 1) * self.beta_2j * theta - self.sum_beta[k]
+
     def P_ijk(self, k: int, theta: float) -> float:
         numer = self.numerator(k, theta)
         denom = self.sum_denominator(self.Kj, theta)
 
         return numer / denom
+
+    def LogP_ijk(self, k: int, theta: float) -> float:
+        numer_exp = self.numerator_exp(k, theta)
+        denom = self.sum_denominator(self.Kj, theta)
+
+        return numer_exp - log(denom)
 
 
 def delta(X_ij: int, k: int) -> bool:
@@ -97,6 +107,6 @@ def logP(N: int, J: int, KJ: dict, X_ij: dict, thetas: dict, params: dict, item:
             data.extend(list(allbeta_j.values()))
             tmp_item = Item(j, data)
             #sum += tmp_item.P_ijk(k, thetas[i]) if delta(X_ij[i][j], k - 1) is True else 0
-            sum += tmp_item.P_ijk(X_ij[i][j], thetas[i]) if X_ij[i][j] != 0 else 0
+            sum += tmp_item.LogP_ijk(X_ij[i][j], thetas[i]) if X_ij[i][j] != 0 else 0
 
     return sum
