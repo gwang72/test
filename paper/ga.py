@@ -5,10 +5,10 @@ import profile
 
 
 PM = 0.1  # 变异概率
-PC = 0.9  # 交叉概率
+PC = 0.85  # 交叉概率
 POPU = 50  # 种族数量
 r = 0.2  # 交叉参数
-GENE = 10  # 迭代次数
+GENE = 100  # 迭代次数
 tour = 2  # 锦标赛选择方法中一次选取的个体数量
 
 max_theta = 4.0  # 能力值上下限
@@ -123,10 +123,11 @@ def main():
 
     # 迭代
     for g in range(GENE):
+        print("Gene", g)
         new_population = []
+        print("selecting...")
         for i in range(int(POPU/2)):
             # 选择
-            print("select", i)
             a, b = select(population, X_ij)
             if random.random() <= PC:
                 # 交叉
@@ -140,14 +141,18 @@ def main():
         # for i in range(POPU):
         #     if random.random() <= PM:
         #         new_population[i].mutation()
+        for i in range(POPU):
+            if random.random() <= PM:
+                new_population[i] = Chrom(paper_N, paper_KJ)
 
         # 将原来的种群替代
         population = new_population[:]
 
+        print("sorting...")
         # 根据评价函数列出最小者
         # new_population.sort(key=lambda chrom:chrom.fitness(X_ij))
         max_chrom = max(new_population, key=lambda chrom:chrom.fitness(X_ij))
-        print("Gene", g)
+
         print("fitness", max_chrom.fitness(X_ij))
         print("thetas", max_chrom.thetas)
         print("betas", max_chrom.betas)
